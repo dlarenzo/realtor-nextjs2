@@ -81,21 +81,62 @@ export const getSingleListing = async (req, res) => {
 };
 
 // UPDATE: Update a listing
+// export const updateListing = async (req, res) => {
+//   try {
+//     await connect();
+//     const db = mongoose.connection.db;
+//     const result = await db
+//       .collection("listings")
+//       .updateOne({ _id: new ObjectId(req.params.id) }, { $set: req.body });
+//     if (result.matchedCount === 0) {
+//       res.status(404).json({ error: "Listing not found" });
+//     } else {
+//       res.json(result);
+//     }
+//   } catch (err) {
+//     console.error("Error updating listing:", err);
+//     res.status(500).json({ error: err });
+//   }
+// };
+
 export const updateListing = async (req, res) => {
   try {
     await connect();
     const db = mongoose.connection.db;
-    const result = await db
+    const userId = new ObjectId(req.params.id);
+    const listing = {
+      address: req.body.address,
+      status: req.body.status,
+      price: req.body.price,
+      imgUrl: req.body.imgUrl,
+      description: req.body.description,
+      bedrooms: req.body.bedrooms,
+      bathrooms: req.body.bathrooms,
+      sqft: req.body.sqft,
+      levels: req.body.levels,
+      year: req.body.year,
+      cityState: req.body.cityState,
+    };
+    const response = await db
       .collection("listings")
-      .updateOne({ _id: new ObjectId(req.params.id) }, { $set: req.body });
-    if (result.matchedCount === 0) {
+      .updateOne({ _id: userId }, { $set: listing });
+
+    // Is it being passed through
+    console.log(listing);
+
+    console.log(response);
+
+    // Check if the update was successful
+
+    if (response.matchedCount === 0) {
       res.status(404).json({ error: "Listing not found" });
     } else {
-      res.json(result);
+      res
+        .status(200)
+        .json({ message: "Listing updated successfully", listing: response });
     }
-  } catch (err) {
-    console.error("Error updating listing:", err);
-    res.status(500).json({ error: err });
+  } catch (error) {
+    res.status(500).json(error);
   }
 };
 
