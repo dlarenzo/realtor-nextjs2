@@ -1,7 +1,12 @@
 "use client";
 import Link from "next/link";
 
+import { UserAuth } from "../app/context/AuthContext";
+
 export default function Header() {
+  const { user } = UserAuth();
+
+  console.log(user);
   return (
     <header className="bg-slate-200 shadow-md z-20 fixed w-full">
       <div className="flex justify-between items-center max-w-6xl mx-auto p-3">

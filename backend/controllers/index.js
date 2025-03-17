@@ -81,23 +81,6 @@ export const getSingleListing = async (req, res) => {
 };
 
 // UPDATE: Update a listing
-// export const updateListing = async (req, res) => {
-//   try {
-//     await connect();
-//     const db = mongoose.connection.db;
-//     const result = await db
-//       .collection("listings")
-//       .updateOne({ _id: new ObjectId(req.params.id) }, { $set: req.body });
-//     if (result.matchedCount === 0) {
-//       res.status(404).json({ error: "Listing not found" });
-//     } else {
-//       res.json(result);
-//     }
-//   } catch (err) {
-//     console.error("Error updating listing:", err);
-//     res.status(500).json({ error: err });
-//   }
-// };
 
 export const updateListing = async (req, res) => {
   try {
